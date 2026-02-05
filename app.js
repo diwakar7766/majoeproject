@@ -38,7 +38,11 @@ async function main() {
     await mongoose.connect(dburl);
     console.log("connected to DB");
 }
-main().catch(err => console.log(err));
+main().catch(err => {
+    console.error('MongoDB connection error:', err);
+    // exit so the server doesn't run without a working database/session store
+    process.exit(1);
+});
 
 const store = MongoStore.create({
     mongoUrl: dburl,
@@ -80,9 +84,10 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-    res.locals.success = req.flash("success");
-    res.locals.error = req.flash("error");
-    res.locals.currUser = req.user;
+    // defensive: if flash() is not available (session store failed) provide empty arrays
+    res.locals.success = (typeof req.flash === 'function') ? req.flash("success") : [];
+    res.locals.error = (typeof req.flash === 'function') ? req.flash("error") : [];
+    res.locals.currUser = req.user || null;
     next();
 });
 
