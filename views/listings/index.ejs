@@ -1,0 +1,71 @@
+<% layout("/layouts/boilerplate") -%>
+
+  <div class="row">
+    <div class="col-12">
+
+      <div id="filters-wrapper">
+        <div id="filters">
+          <div class="filter"><i class="fa-solid fa-fire"></i>
+            <p>Trending</p>
+          </div>
+          <div class="filter"><i class="fa-solid fa-bed"></i>
+            <p>Rooms</p>
+          </div>
+          <div class="filter"><i class="fa-solid fa-house"></i>
+            <p>Homes</p>
+          </div>
+          <div class="filter"><i class="fa-solid fa-mountain-sun"></i>
+            <p>Mountain</p>
+          </div>
+          <div class="filter"><i class="fa-solid fa-umbrella-beach"></i>
+            <p>Beach</p>
+          </div>
+          <div class="filter"><i class="fa-solid fa-tree"></i>
+            <p>Nature</p>
+          </div>
+          <div class="filter"><i class="fa-solid fa-water-ladder"></i>
+            <p>Pool</p>
+          </div>
+          <div class="filter"><i class="fa-solid fa-city"></i>
+            <p>City</p>
+          </div>
+          <div class="filter"><i class="fa-solid fa-campground"></i>
+            <p>Camping</p>
+          </div>
+          <div class="filter"><i class="fa-solid fa-star"></i>
+            <p>Luxury</p>
+          </div>
+          <div class="filter"><i class="fa-solid fa-paw"></i>
+            <p>Pets</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cards-container">
+        <% allListings.forEach(listing=> { %>
+          <a href="/listings/<%= listing._id %>" class="listing-link">
+            <div class="card rounded-4">
+              <img src="<%= listing.image.url %>" alt="<%= listing.title %>" class="card-img"
+                referrerpolicy="no-referrer"
+                onerror="this.onerror=null;this.src='https://placehold.co/600x400?text=Image+Unavailable';">
+            </div>
+
+            <div class="listing-info-index mt-2">
+              <h5 class="card-title">
+                <%= listing.title %>
+              </h5>
+              <p class="card-price">₹ <%= listing.price.toLocaleString("en-IN") %> <span class="per-night">/
+                    night</span></p>
+              <p class="card-text">
+                <%= listing.description %>
+              </p>
+              <p class="card-meta">
+                <%= listing.location %>, <%= listing.country %>
+              </p>
+            </div>
+          </a>
+          <% }) %>
+      </div>
+
+    </div>
+  </div>
